@@ -1,0 +1,3 @@
+[submodule "csv-test-data"]
+	path = csv-test-data
+	url = https://github.com/sineemore/csv-test-data.git
