@@ -97,8 +97,10 @@ void print_escaped( const char *s, size_t len, char *postfix )
         printf( "·" );
         break;                  // optional
       default:
-        if ( ( unsigned char )*s < 32 || ( unsigned char )*s == 127 ) printf( "\\x%02X", ( unsigned char )*s );
-        else putchar( *s );
+        if ( ( unsigned char )*s < 32 || ( unsigned char )*s == 127 )
+          printf( "\\x%02X", ( unsigned char )*s );
+        else
+          putchar( *s );
     }
     s++;
     len--;
@@ -148,8 +150,10 @@ int main( void )
     ctx.i = 0;
     printf( "CASE #%d\n", ctx.j );
     int st = csv_parse( h, cb, &ctx );
-    if ( st >= 0 ) printf( "OK\n\n" );
-    else           printf( "FAIL %d\n\n", st );
+    if ( st >= 0 )
+      printf( "OK\n\n" );
+    else
+      printf( "FAIL %d\n\n", st );
     free( h );
   }
 
@@ -171,10 +175,11 @@ int main( void )
         print_escaped( h, strlen( h ), "'\n" );
         st = csv_parse( h, cb, &ctx );
         h += st;
-        if ( st < 0 ) break;
+        if ( st < 0 )
+          break;
       }
       if ( st < 0 ) printf( "FAIL\n\n" );
-      else printf( "OK\n\n" );
+      else          printf( "OK\n\n" );
       free( file );
     } else
       printf( "TEST '%s' MISSING!\n", testfiles[ctx.r] );
