@@ -1,2 +1,2 @@
 # eccsv
-rfc copliant csv parser for embedded
+rfc compliant csv parser for embedded
