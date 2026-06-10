@@ -18,14 +18,14 @@ typedef char *eccsv_fieldp_t;
 typedef const char *eccsv_fieldp_t;
 #endif
 
-typedef void ( *csv_cb_t ) ( eccsv_fieldp_t field, int col, size_t len, ECCSV_CTXTYPE ctx );
+typedef void ( *eccsv_cb_t ) ( eccsv_fieldp_t field, int col, size_t len, ECCSV_CTXTYPE ctx );
 
-int csv_parse( eccsv_fieldp_t s, csv_cb_t cb, ECCSV_CTXTYPE ctx );
+int eccsv_parse( eccsv_fieldp_t s, eccsv_cb_t cb, ECCSV_CTXTYPE ctx );
 
 
 #ifdef ECCSV_IMPLEMENTATION
 
-int csv_parse( eccsv_fieldp_t s, csv_cb_t cb, ECCSV_CTXTYPE ctx )
+int eccsv_parse( eccsv_fieldp_t s, eccsv_cb_t cb, ECCSV_CTXTYPE ctx )
 {
   int col = 0;
   eccsv_fieldp_t base = s;

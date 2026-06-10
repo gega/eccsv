@@ -149,7 +149,7 @@ int main( void )
     char *h = strdup( csv[ctx.j] );
     ctx.i = 0;
     printf( "CASE #%d\n", ctx.j );
-    int st = csv_parse( h, cb, &ctx );
+    int st = eccsv_parse( h, cb, &ctx );
     if ( st >= 0 )
       printf( "OK\n\n" );
     else
@@ -173,7 +173,7 @@ int main( void )
       {
         printf( "  LINE %d '", ctx.j );
         print_escaped( h, strlen( h ), "'\n" );
-        st = csv_parse( h, cb, &ctx );
+        st = eccsv_parse( h, cb, &ctx );
         h += st;
         if ( st < 0 )
           break;
