@@ -108,13 +108,14 @@ void print_escaped( const char *s, size_t len, char *postfix )
   printf( postfix );
 }
 
-void cb( eccsv_fieldp_t f, int col, size_t len, ECCSV_CTXTYPE c )
+int cb( eccsv_fieldp_t f, int col, size_t len, ECCSV_CTXTYPE c )
 {
   printf( "\tcsv %d: #%d %s [%ld] '", c->j, c->i, ( memcmp( c->expected[c->r], f, len ) == 0 ? " OK " : "FAIL" ), len );
   print_escaped( f, len, "' =? '" );
   print_escaped( c->expected[c->r], strlen( c->expected[c->r] ), "'\n" );
   c->i++;
   c->r++;
+  return(0);
 }
 
 #define CSV_PATH "csv-test-data/csv/"
