@@ -20,42 +20,42 @@ typedef const char *eccsv_fieldp_t;
 
 typedef int ( *eccsv_cb_t ) ( eccsv_fieldp_t field, int col, size_t len, ECCSV_CTXTYPE ctx );
 
-int eccsv_parse( eccsv_fieldp_t s, eccsv_cb_t cb, ECCSV_CTXTYPE ctx );
+int eccsv_parse( eccsv_fieldp_t line, eccsv_cb_t cb, ECCSV_CTXTYPE ctx );
 
 
 #ifdef ECCSV_IMPLEMENTATION
 
-int eccsv_parse( eccsv_fieldp_t s, eccsv_cb_t cb, ECCSV_CTXTYPE ctx )
+int eccsv_parse( eccsv_fieldp_t str, eccsv_cb_t cb, ECCSV_CTXTYPE ctx )
 {
   int col = 0;
-  eccsv_fieldp_t base = s;
+  eccsv_fieldp_t base = str;
 
-  if ( NULL == s )
+  if ( NULL == str )
     return ( -3 );
-  while ( '\n' == *s || '\r' == *s )
-    s++;
-  if ( *s == '\0' )
-    return ( s - base );
+  while ( '\n' == *str || '\r' == *str )
+    str++;
+  if ( *str == '\0' )
+    return ( str - base );
   for ( ;; )
   {
-    if ( *s == '"' )
+    if ( *str == '"' )
     {
 #if ECCSV_MUTABLE
-      char *f = ++s,
+      char *f = ++str,
           *w = f;
 
       for ( ;; )
       {
-        char c = *s++;
+        char c = *str++;
 
         if ( !c )
           return ( -1 );
         if ( c == '"' )
         {
-          if ( *s == '"' )
+          if ( *str == '"' )
           {
             *w++ = '"';
-            ++s;
+            ++str;
             continue;
           }
           break;
@@ -65,20 +65,20 @@ int eccsv_parse( eccsv_fieldp_t s, eccsv_cb_t cb, ECCSV_CTXTYPE ctx )
       if ( 0 != cb( f, col++, ( size_t )( w - f ), ctx ) )
         return ( -4 );
 #else
-      const char *f = ++s;
+      const char *f = ++str;
       size_t len = 0;
 
       for ( ;; )
       {
-        char c = *s++;
+        char c = *str++;
 
         if ( !c )
           return ( -1 );
         if ( c == '"' )
         {
-          if ( *s == '"' )
+          if ( *str == '"' )
           {
-            ++s;
+            ++str;
             len += 2;
             continue;
           }
@@ -89,33 +89,33 @@ int eccsv_parse( eccsv_fieldp_t s, eccsv_cb_t cb, ECCSV_CTXTYPE ctx )
       if ( 0 != cb( f, col++, len, ctx ) )
         return ( -4 );
 #endif
-      if ( *s == ECCSV_SEP )
+      if ( *str == ECCSV_SEP )
       {
-        ++s;
+        ++str;
         continue;
       }
-      while ( '\n' == *s || '\r' == *s )
-        s++;
-      if ( !*s )
-        return ( s - base );
+      while ( '\n' == *str || '\r' == *str )
+        str++;
+      if ( !*str )
+        return ( str - base );
       return ( -2 );
     }
 
     {
-      eccsv_fieldp_t f = s;
+      eccsv_fieldp_t f = str;
 
-      while ( *s && *s != ECCSV_SEP && *s != '\r' && *s != '\n' )
-        ++s;
-      if ( 0 != cb( f, col++, ( size_t )( s - f ), ctx ) )
+      while ( *str && *str != ECCSV_SEP && *str != '\r' && *str != '\n' )
+        ++str;
+      if ( 0 != cb( f, col++, ( size_t )( str - f ), ctx ) )
         return ( -4 );
-      if ( *s == ECCSV_SEP )
+      if ( *str == ECCSV_SEP )
       {
-        ++s;
+        ++str;
         continue;
       }
-      while ( '\n' == *s || '\r' == *s )
-        s++;
-      return ( s - base );
+      while ( '\n' == *str || '\r' == *str )
+        str++;
+      return ( str - base );
     }
   }
 }

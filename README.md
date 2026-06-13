@@ -76,7 +76,7 @@ typedef void (*csv_cb_t)(
 );
 
 int eccsv_parse(
-    eccsv_fieldp_t s,
+    eccsv_fieldp_t str,
     csv_cb_t cb,
     ECCSV_CTXTYPE ctx
 );
@@ -84,7 +84,7 @@ int eccsv_parse(
 
 ### Parameters
 
-#### `s`
+#### `str`
 
 Pointer to a CSV record.
 
